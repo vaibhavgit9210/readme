@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Readings — The Ant Analogy</title>
+<meta name="description" content="Is the ant analogy for interstellar travel correct? A stress test, plus a 41-item reading track.">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#131417" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#faf8f4" media="(prefers-color-scheme: light)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%90%9C%3C/text%3E%3C/svg%3E">
+<style>
+/* ═══════════════ tokens ═══════════════ */
+:root{
+  --serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  --measure: 40rem;
+  --r: 12px;
+}
+:root, :root[data-theme="dark"]{
+  --bg:#131417; --bg-grad:#181a1f;
+  --surface:#1b1d22; --surface-2:#212429;
+  --text:#e9e7e2; --text-strong:#fbfaf8; --muted:#9b968d; --faint:#6c6862;
+  --border:#2b2e35; --border-soft:#23262c;
+  --accent:#e9a33c; --accent-dim:#b8792a; --accent-bg:rgba(233,163,60,.10); --accent-line:rgba(233,163,60,.32);
+  --good:#54b98a; --bad:#e0655f;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+}
+:root[data-theme="light"]{
+  --bg:#faf8f4; --bg-grad:#f4f1ea;
+  --surface:#ffffff; --surface-2:#f7f4ee;
+  --text:#26241f; --text-strong:#100f0d; --muted:#6b665e; --faint:#918b81;
+  --border:#e2dcd1; --border-soft:#eee9df;
+  --accent:#a2620c; --accent-dim:#c07f1e; --accent-bg:rgba(162,98,12,.07); --accent-line:rgba(162,98,12,.28);
+  --good:#2f7d5b; --bad:#b2413b;
+  --shadow:0 1px 2px rgba(60,50,35,.06), 0 10px 28px -14px rgba(60,50,35,.18);
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme]){ color-scheme: light; }
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+html{ -webkit-text-size-adjust:100%; scroll-behavior:smooth; scroll-padding-top:5rem; }
+@media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } *{ animation:none !important; transition:none !important; } }
+body{
+  margin:0; background:var(--bg); color:var(--text);
+  font-family:var(--serif); font-size:1.0625rem; line-height:1.75;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+body::before{
+  content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background:radial-gradient(1100px 620px at 50% -10%, var(--bg-grad), var(--bg) 70%);
+}
+img{ max-width:100%; }
+a{ color:var(--accent); text-decoration:none; border-bottom:1px solid var(--accent-line); }
+a:hover{ border-bottom-color:var(--accent); }
+:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:4px; }
+
+/* ═══════════════ progress + chrome ═══════════════ */
+#bar{ position:fixed; top:0; left:0; height:2px; width:0; background:var(--accent); z-index:60; }
+header.top{
+  position:sticky; top:0; z-index:50;
+  display:flex; align-items:center; gap:.75rem;
+  padding:.6rem clamp(1rem,4vw,2rem); padding-top:max(.6rem, env(safe-area-inset-top));
+  background:color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter:saturate(160%) blur(14px); -webkit-backdrop-filter:saturate(160%) blur(14px);
+  border-bottom:1px solid var(--border-soft);
+}
+@supports not (backdrop-filter: blur(1px)){ header.top{ background:var(--bg); } }
+.brand{
+  font-family:var(--sans); font-size:.8125rem; font-weight:600; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--muted); border:0; margin-right:auto;
+  display:flex; align-items:center; gap:.5rem;
+}
+.brand:hover{ color:var(--text); }
+.brand .dot{ width:6px; height:6px; border-radius:50%; background:var(--accent); flex:none; }
+.btn{
+  font-family:var(--sans); font-size:.75rem; font-weight:600; letter-spacing:.04em;
+  color:var(--muted); background:var(--surface); border:1px solid var(--border);
+  border-radius:999px; padding:.45rem .8rem; cursor:pointer; line-height:1;
+  display:inline-flex; align-items:center; gap:.4rem; transition:color .15s, border-color .15s, background .15s;
+}
+.btn:hover{ color:var(--text-strong); border-color:var(--accent-line); }
+.btn svg{ width:14px; height:14px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
+[data-theme="dark"] .sun{ display:none } [data-theme="light"] .moon{ display:none }
+
+/* ═══════════════ layout ═══════════════ */
+.wrap{ display:grid; grid-template-columns:1fr; }
+@media (min-width:1100px){
+  .wrap{ grid-template-columns:15.5rem minmax(0,1fr); gap:0; max-width:78rem; margin:0 auto; }
+}
+main{ min-width:0; padding:0 clamp(1.1rem,5vw,2rem) 6rem; }
+.doc{ max-width:var(--measure); margin:0 auto; }
+
+/* ═══════════════ toc ═══════════════ */
+nav.toc{
+  font-family:var(--sans); font-size:.8125rem; line-height:1.5;
+}
+@media (min-width:1100px){
+  nav.toc{ position:sticky; top:4rem; align-self:start; max-height:calc(100vh - 5.5rem); overflow-y:auto;
+    padding:2.5rem 1rem 3rem 1.25rem; border-right:1px solid var(--border-soft); }
+  #tocClose, #tocBtn{ display:none; }
+}
+@media (max-width:1099px){
+  nav.toc{
+    position:fixed; inset:0 auto 0 0; z-index:70; width:min(20rem,86vw);
+    background:var(--surface); border-right:1px solid var(--border);
+    padding:1.25rem 1.25rem 3rem; overflow-y:auto;
+    transform:translateX(-101%); transition:transform .26s cubic-bezier(.4,0,.2,1);
+    box-shadow:var(--shadow);
+  }
+  nav.toc.open{ transform:none; }
+  #scrim{ position:fixed; inset:0; z-index:65; background:rgba(0,0,0,.5); opacity:0; pointer-events:none; transition:opacity .26s; }
+  #scrim.on{ opacity:1; pointer-events:auto; }
+}
+.toc h4{
+  font-size:.6875rem; letter-spacing:.16em; text-transform:uppercase; color:var(--faint);
+  margin:1.5rem 0 .5rem; font-weight:700;
+}
+.toc h4:first-of-type{ margin-top:0; }
+.toc ol{ list-style:none; margin:0; padding:0; }
+.toc li{ margin:0; }
+.toc a{
+  display:block; padding:.32rem .6rem; margin-left:-.6rem; border:0; border-radius:7px;
+  color:var(--muted); transition:color .13s, background .13s;
+}
+.toc a:hover{ color:var(--text-strong); background:var(--surface-2); }
+.toc a.active{ color:var(--accent); background:var(--accent-bg); font-weight:600; }
+#tocClose{ position:absolute; top:1rem; right:1rem; }
+
+/* ═══════════════ hero ═══════════════ */
+.hero{ max-width:var(--measure); margin:0 auto; padding:clamp(2.5rem,9vw,5rem) 0 clamp(1.5rem,4vw,2.5rem); }
+.eyebrow{
+  font-family:var(--sans); font-size:.6875rem; font-weight:700; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--accent); margin:0 0 1rem;
+}
+.hero h1{
+  font-size:clamp(2.1rem,8.5vw,3.4rem); line-height:1.06; letter-spacing:-.02em;
+  margin:0 0 1rem; color:var(--text-strong); font-weight:600;
+}
+.hero .lede{ font-size:clamp(1.0625rem,3.4vw,1.25rem); color:var(--muted); margin:0 0 1.75rem; }
+.byline{
+  font-family:var(--sans); font-size:.75rem; color:var(--faint); letter-spacing:.02em;
+  display:flex; flex-wrap:wrap; gap:.4rem .9rem; padding-top:1.25rem; border-top:1px solid var(--border-soft);
+}
+
+/* ═══════════════ typography ═══════════════ */
+section{ scroll-margin-top:5rem; }
+h2{
+  font-size:clamp(1.5rem,5vw,2rem); line-height:1.2; letter-spacing:-.015em; font-weight:600;
+  color:var(--text-strong); margin:3.5rem 0 1rem;
+}
+h3{
+  font-size:clamp(1.15rem,4vw,1.375rem); line-height:1.3; font-weight:600;
+  color:var(--text-strong); margin:2.75rem 0 .75rem; letter-spacing:-.01em;
+}
+h2 + h3{ margin-top:1.5rem; }
+p{ margin:0 0 1.15rem; }
+strong{ color:var(--text-strong); font-weight:600; }
+em{ font-style:italic; }
+hr{ border:0; border-top:1px solid var(--border); margin:3rem 0; }
+.divider{
+  border:0; margin:3.5rem 0; height:1rem; text-align:center; color:var(--faint);
+  font-family:var(--sans); letter-spacing:1em; font-size:.6rem;
+}
+.divider::before{ content:"•••"; }
+
+/* section number chip */
+.chapter{
+  display:flex; align-items:baseline; gap:.75rem; margin:4.5rem 0 1.25rem;
+  padding-top:2.5rem; border-top:1px solid var(--border);
+}
+.chapter:first-child{ border-top:0; padding-top:0; margin-top:2rem; }
+.chapter .num{
+  font-family:var(--mono); font-size:.75rem; color:var(--accent); flex:none;
+  padding:.2rem .5rem; background:var(--accent-bg); border-radius:5px; letter-spacing:.05em;
+}
+.chapter h2{ margin:0; }
+
+/* blockquote — the analogy */
+blockquote{
+  margin:1.75rem 0; padding:1.25rem 1.25rem 1.25rem 1.4rem;
+  border-left:3px solid var(--accent); background:var(--accent-bg);
+  border-radius:0 var(--r) var(--r) 0; color:var(--text);
+  font-size:1.0625rem; line-height:1.72;
+}
+blockquote p:last-child{ margin-bottom:0; }
+blockquote cite{
+  display:block; margin-top:.9rem; font-style:normal; font-family:var(--sans);
+  font-size:.75rem; letter-spacing:.04em; color:var(--muted);
+}
+
+/* verdict callout */
+.verdict{
+  margin:2rem 0; padding:1.15rem 1.3rem; border-radius:var(--r);
+  background:var(--surface); border:1px solid var(--border); box-shadow:var(--shadow);
+}
+.verdict .tag{
+  font-family:var(--sans); font-size:.625rem; font-weight:700; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--accent); display:block; margin-bottom:.5rem;
+}
+.verdict p{ margin:0; font-size:1.0625rem; }
+.verdict p + p{ margin-top:.75rem; }
+
+/* note / aside */
+.note{
+  margin:1.75rem 0; padding:1rem 1.15rem; border-radius:var(--r);
+  background:var(--surface-2); border:1px solid var(--border-soft);
+  font-size:.9375rem; line-height:1.65; color:var(--muted);
+}
+.note strong{ color:var(--text); }
+.note p:last-child{ margin-bottom:0; }
+
+/* tables */
+.scroller{ overflow-x:auto; margin:1.75rem 0; border:1px solid var(--border); border-radius:var(--r); background:var(--surface); -webkit-overflow-scrolling:touch; }
+table{ border-collapse:collapse; width:100%; font-family:var(--sans); font-size:.875rem; line-height:1.55; }
+th,td{ text-align:left; padding:.75rem .9rem; border-bottom:1px solid var(--border-soft); vertical-align:top; }
+th{
+  font-size:.6875rem; letter-spacing:.1em; text-transform:uppercase; color:var(--faint);
+  font-weight:700; background:var(--surface-2); white-space:nowrap;
+}
+tr:last-child td{ border-bottom:0; }
+td strong{ color:var(--text-strong); }
+td em{ color:var(--muted); }
+
+/* lists */
+ul.plain, ol.plain{ margin:0 0 1.25rem; padding-left:1.35rem; }
+ul.plain li, ol.plain li{ margin:0 0 .5rem; }
+ul.plain li::marker{ color:var(--accent-dim); }
+ol.plain li::marker{ color:var(--faint); font-family:var(--mono); font-size:.85em; }
+
+/* ═══════════════ reading list ═══════════════ */
+.tier{ margin:2.75rem 0; }
+.tier-head{ display:flex; align-items:baseline; gap:.65rem; flex-wrap:wrap; margin:0 0 .35rem; }
+.tier-head h3{ margin:0; }
+.pill{
+  font-family:var(--sans); font-size:.625rem; font-weight:700; letter-spacing:.1em;
+  text-transform:uppercase; padding:.22rem .5rem; border-radius:999px;
+  background:var(--accent-bg); color:var(--accent); border:1px solid var(--accent-line); flex:none;
+}
+.pill.plain{ background:var(--surface-2); color:var(--muted); border-color:var(--border); }
+.tier > .why{ font-size:.9375rem; color:var(--muted); margin:0 0 1.15rem; }
+
+ol.books{ list-style:none; margin:0; padding:0; counter-reset:none; }
+ol.books > li{
+  display:grid; grid-template-columns:auto 1fr; gap:.15rem .75rem; align-items:start;
+  padding:.7rem 0; border-top:1px solid var(--border-soft);
+}
+ol.books > li:first-child{ border-top:0; }
+ol.books input[type=checkbox]{
+  appearance:none; -webkit-appearance:none; margin:.34rem 0 0; flex:none;
+  width:1.15rem; height:1.15rem; border:1.5px solid var(--border); border-radius:5px;
+  background:var(--surface); cursor:pointer; position:relative; grid-row:span 2;
+  transition:background .15s, border-color .15s;
+}
+ol.books input[type=checkbox]:hover{ border-color:var(--accent-line); }
+ol.books input[type=checkbox]:checked{ background:var(--accent); border-color:var(--accent); }
+ol.books input[type=checkbox]:checked::after{
+  content:""; position:absolute; left:.3rem; top:.14rem;
+  width:.32rem; height:.6rem; border:solid #17140f; border-width:0 2px 2px 0; transform:rotate(42deg);
+}
+[data-theme="light"] ol.books input[type=checkbox]:checked::after{ border-color:#fff; }
+.bk-title{ font-size:1rem; line-height:1.45; color:var(--text-strong); }
+.bk-title .n{ font-family:var(--mono); font-size:.75rem; color:var(--faint); margin-right:.35rem; }
+.bk-title cite{ font-style:italic; }
+.bk-meta{ font-family:var(--sans); font-size:.8125rem; line-height:1.55; color:var(--muted); }
+.bk-meta .free{
+  font-size:.625rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--good); border:1px solid color-mix(in srgb, var(--good) 40%, transparent);
+  padding:.1rem .35rem; border-radius:4px; margin-right:.4rem; white-space:nowrap;
+}
+li.done .bk-title, li.done .bk-meta{ opacity:.45; }
+li.done .bk-title{ text-decoration:line-through; text-decoration-color:var(--faint); }
+
+.counter{
+  position:sticky; top:3.5rem; z-index:20; margin:1.5rem 0 0;
+  display:flex; align-items:center; gap:.75rem;
+  font-family:var(--sans); font-size:.8125rem; color:var(--muted);
+  padding:.6rem .9rem; border:1px solid var(--border); border-radius:var(--r);
+  background:color-mix(in srgb, var(--surface) 92%, transparent);
+  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+}
+.counter .track{ flex:1; height:5px; background:var(--surface-2); border-radius:999px; overflow:hidden; border:1px solid var(--border-soft); }
+.counter .fill{ height:100%; width:0; background:var(--accent); border-radius:999px; transition:width .3s; }
+.counter b{ color:var(--text-strong); font-variant-numeric:tabular-nums; }
+.counter button{
+  font-family:var(--sans); font-size:.6875rem; color:var(--faint); background:none;
+  border:0; cursor:pointer; padding:.2rem .3rem; text-decoration:underline; text-underline-offset:2px;
+}
+.counter button:hover{ color:var(--bad); }
+
+/* footer */
+footer{
+  max-width:var(--measure); margin:5rem auto 0; padding:2rem 0 1rem;
+  border-top:1px solid var(--border);
+  font-family:var(--sans); font-size:.8125rem; color:var(--faint); line-height:1.7;
+}
+footer a{ color:var(--muted); border-bottom-color:var(--border); }
+footer a:hover{ color:var(--accent); }
+.sources{ font-size:.75rem; margin-top:1rem; }
+
+/* back to top */
+#up{
+  position:fixed; right:1rem; bottom:max(1rem, env(safe-area-inset-bottom)); z-index:40;
+  width:2.6rem; height:2.6rem; border-radius:50%; padding:0; justify-content:center;
+  opacity:0; pointer-events:none; transition:opacity .2s; box-shadow:var(--shadow);
+}
+#up.show{ opacity:1; pointer-events:auto; }
+@media (min-width:1100px){ #up{ right:2rem; bottom:2rem; } }
+
+@media print{
+  header.top, nav.toc, #up, #bar, #scrim, .counter{ display:none !important; }
+  body{ background:#fff; color:#000; }
+}
+</style>
+</head>
+<body>
+
+<div id="bar"></div>
+
+<header class="top">
+  <a class="brand" href="#top"><span class="dot"></span>readings</a>
+  <button class="btn" id="tocBtn" aria-label="Table of contents" aria-expanded="false">
+    <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span>Contents</span>
+  </button>
+  <button class="btn" id="themeBtn" aria-label="Toggle dark mode">
+    <svg class="moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg>
+  </button>
+</header>
+
+<div id="scrim"></div>
+
+<div class="wrap" id="top">
+
+<nav class="toc" id="toc" aria-label="Table of contents">
+  <button class="btn" id="tocClose" aria-label="Close contents">✕</button>
+  <h4>Part I · The Ant Analogy</h4>
+  <ol>
+    <li><a href="#analogy">The analogy as stated</a></li>
+    <li><a href="#right">Where it's right</a></li>
+    <li><a href="#c1">1 · Ants already did it</a></li>
+    <li><a href="#c2">2 · The suitcase is a bus</a></li>
+    <li><a href="#c3">3 · We already found Canada</a></li>
+    <li><a href="#optimistic">Too optimistic, not too bleak</a></li>
+    <li><a href="#repaired">The repaired analogy</a></li>
+  </ol>
+  <h4>Part II · Reading Track</h4>
+  <ol>
+    <li><a href="#gaps">What broke, and why</a></li>
+    <li><a href="#t0">Tier 0 · Estimation</a></li>
+    <li><a href="#t1">Tier 1 · Epistemology</a></li>
+    <li><a href="#t2">Tier 2 · Minds &amp; limits</a></li>
+    <li><a href="#t3">Tier 3 · Why ants work</a></li>
+    <li><a href="#t4">Tier 4 · The cosmic question</a></li>
+    <li><a href="#t5">Tier 5 · Fiction</a></li>
+    <li><a href="#t6">Tier 6 · Research craft</a></li>
+    <li><a href="#order">Suggested order</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<div class="hero">
+  <p class="eyebrow">Part I · Stress test</p>
+  <h1>We're ants — but not the kind that need to understand Canada</h1>
+  <p class="lede">An analogy about why finding another inhabited planet is hard, taken seriously,
+    checked against the literature, and broken in exactly one place.</p>
+  <div class="byline">
+    <span>Idea &amp; argument: Vaibhav Kumar</span>
+    <span>25 July 2026</span>
+    <span>~18 min read</span>
+  </div>
+</div>
+
+<article class="doc">
+
+<div class="chapter"><span class="num">I</span><h2 id="analogy">The analogy as stated</h2></div>
+
+<blockquote>
+  <p>We're ants. It's very difficult to find another planet — but there <em>will</em> be other
+  humans, other species, smarter and dumber. It's just difficult. Like how difficult it would be
+  for an ant in my house in Kerala to "see" the ant in my cousin's house in Toronto.</p>
+  <p>The ant in my home only knows the anthill it built with its queen — that's its solar system,
+  with my dropped sugar grains as gifts from a "celestial." To know about the Canadian ant it would
+  first have to know there <em>is</em> a Canada to look for, that the planet is round, that it
+  cannot walk there — and then invent a very smart way to get into my luggage, reach the airport,
+  reach Canada, <em>know</em> to get out, and then search the house for its kind.</p>
+  <p>For it, this is equivalent to FTL travel. Similarly, humans will have to figure out or build
+  the bag, the flight, the airport, the runway, the destination — which as of now seems light years
+  away.</p>
+</blockquote>
+
+<div class="verdict">
+  <span class="tag">Verdict</span>
+  <p><strong>Largely correct, and it has a real intellectual lineage</strong> — you independently
+  reconstructed two concepts that philosophers have technical names for.</p>
+  <p>But one load-bearing step is wrong: <strong>the luggage is not FTL.</strong> And the direction
+  of the error is interesting — the analogy is too pessimistic about travel, and too
+  <em>optimistic</em> about there being anyone to travel to.</p>
+</div>
+
+<h2 id="right">Where it's right</h2>
+
+<p>Three of the four moves in the analogy have established names. This isn't a coincidence — it's
+a well-trodden line of thought, and knowing the vocabulary lets you find the people who already
+pushed it further than you have.</p>
+
+<div class="scroller">
+<table>
+  <thead><tr><th>Your phrasing</th><th>The established concept</th><th>Source</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>"the anthill is its solar system"</td>
+      <td><strong>Umwelt</strong> — every organism inhabits a perceptual bubble it mistakes for the world</td>
+      <td>Jakob von Uexküll, <em>A Foray into the Worlds of Animals and Humans</em> (1934)</td>
+    </tr>
+    <tr>
+      <td>"it can't know there's a Canada"</td>
+      <td><strong>Cognitive closure</strong> — some truths are systematically inaccessible to a given kind of mind. His own example: <em>calculus is closed to rats</em></td>
+      <td>Colin McGinn, <a href="https://www.newdualism.org/papers/C.McGinn/McGinn_1989_Mind-body-problem_M.pdf">"Can We Solve the Mind–Body Problem?"</a>, <em>Mind</em> 98 (1989)</td>
+    </tr>
+    <tr>
+      <td>same, differently framed</td>
+      <td><strong>Problems vs. mysteries</strong> — a rat can't solve a prime-number maze; no reason to assume humans lack an analogous ceiling</td>
+      <td>Chomsky, after C.S. Peirce</td>
+    </tr>
+    <tr>
+      <td>"sugar grains as gifts from a celestial"</td>
+      <td>Clarke's Third Law from the <em>receiving</em> end</td>
+      <td>Stanisław Lem, <em>His Master's Voice</em> (1968)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>Haldane got there first, in <em>Possible Worlds</em> (1927): <em>"the universe is not only
+queerer than we suppose, but queerer than we can suppose."</em></p>
+
+<div class="note">
+  <p><strong>The image itself is nearly Liu Cixin's.</strong> <em>The Three-Body Problem</em> opens
+  with an ant crawling over the engraved letters of a gravestone, unable to perceive that the
+  grooves are language. You arrived at the same picture independently.</p>
+</div>
+
+<hr class="divider">
+
+<div class="chapter"><span class="num">II</span><h2 id="c1">Correction 1 — Ants already did it, without knowing anything</h2></div>
+
+<p>This is the sharpest empirical rebuttal, and it's a good one. The ant in your Kerala kitchen and
+the ant in your cousin's Toronto kitchen <strong>may literally be nestmates.</strong></p>
+
+<p>Argentine ants (<em>Linepithema humile</em>) got into the cargo. They now form a supercolony
+spanning roughly 6,000&nbsp;km of southern European coast — millions of nests, billions of workers
+that recognise each other as kin and refuse to fight (Giraud, Pedersen &amp; Keller,
+<a href="https://www.pnas.org/doi/10.1073/pnas.092694199"><em>PNAS</em> 99:6075, 2002</a>). By 2009
+the evidence suggested the European, Californian and Japanese supercolonies are
+<strong>one global megacolony</strong>. Bertelsmeier et al.
+(<a href="https://www.nature.com/articles/s41559-017-0184"><em>Nature Ecology &amp; Evolution</em> 1:184, 2017</a>)
+tracked 241 invasive ant species and found their spread maps onto human trade waves — 1850–1914,
+then 1960 to now.</p>
+
+<p>No ant knew Canada existed. No ant knew the Earth was round. <strong>They didn't need to.</strong>
+They needed to be a trillion strong, indifferent to failure, and near a vector.</p>
+
+<p>Dennett's name for this is <strong>"competence without comprehension"</strong>
+(<em>From Bacteria to Bach and Back</em>, 2017) — his central thesis, that Darwin and Turing both
+discovered that problems can be solved by systems which understand nothing. Your analogy assumes
+the ant must first <em>know</em>. That is precisely the assumption the ants themselves falsify.</p>
+
+<div class="note">
+  <p><strong>The astrobiological version is lithopanspermia.</strong> Melosh, "The rocky road to
+  panspermia," <em>Nature</em> 332 (1988); Ginsburg, Lingam &amp; Loeb, "Galactic Panspermia,"
+  <em>ApJL</em> (2018). Life may spread exactly the way ants do — numbers, patience, and a rock
+  instead of a suitcase.</p>
+</div>
+
+<div class="chapter"><span class="num">III</span><h2 id="c2">Correction 2 — The suitcase is not FTL. It's a bus.</h2></div>
+
+<p>This is the actual error. The ant in the luggage isn't violating its physics; it's riding a
+faster carrier at ordinary speeds. Nothing about it is superluminal.</p>
+
+<p>And that matters, because <strong>interstellar travel doesn't require FTL either.</strong>
+Proxima Centauri is 4.24 light years away. At 0.1<em>c</em> that's about 42 years — a Voyager-scale
+<em>patience</em> problem, not a physics-violation problem. The literature on this is old and
+unembarrassed:</p>
+
+<ul class="plain">
+  <li><strong>Freeman Dyson, "Interstellar Transport,"</strong> <em>Physics Today</em> (Oct 1968) —
+    nuclear pulse propulsion; concluded it was reachable with roughly then-current physics.</li>
+  <li><strong>Bond &amp; Martin, Project Daedalus Final Report,</strong> <em>JBIS</em> supplement
+    (1978) — fusion, 12% <em>c</em>, actual engineering drawings.</li>
+  <li><strong>Robert L. Forward,</strong> "Roundtrip Interstellar Travel Using Laser-Pushed
+    Lightsails," <em>J. Spacecraft and Rockets</em> 21(2) (1984).</li>
+  <li><strong>Philip Lubin, <a href="https://arxiv.org/abs/1604.01356">"A Roadmap to Interstellar
+    Flight"</a></strong> — <em>JBIS</em> 69:40–72 (2016). The technical basis for Breakthrough
+    Starshot: gram-scale wafercraft, nearest star in ~20 years. His stated position is that
+    <a href="https://www.interaliamag.org/articles/philip-lubin-can-begin-interstellar-mission-today/">we
+    can begin today</a>.</li>
+</ul>
+
+<p>Meanwhile the thing that <em>is</em> blocked is the thing your analogy invoked. Alcubierre's
+warp metric (<em>Classical and Quantum Gravity</em> 11, 1994) survives general relativity but not
+quantum field theory: <strong>Pfenning &amp; Ford (1997)</strong> showed the required negative
+energy exceeds the mass-energy of the entire visible universe by orders of magnitude, and can
+persist for only about 10<sup>−33</sup> seconds. See also Olum, and Finazzi–Liberati–Barceló on
+bubble instability.</p>
+
+<div class="verdict">
+  <span class="tag">The inversion</span>
+  <p><strong>FTL looks genuinely closed. 0.1<em>c</em> looks merely expensive.</strong> The analogy
+  borrowed the impossibility of the former to describe the difficulty of the latter.</p>
+</div>
+
+<div class="chapter"><span class="num">IV</span><h2 id="c3">Correction 3 — Ants can't accumulate. We can. And we already found Canada.</h2></div>
+
+<p>The deepest disanalogy. An ant's cognition is capped by its genome. Ours is
+<em>extensible by external scaffolding</em> — writing, mathematics, instruments, institutions. We
+didn't evolve eyes for the cosmic microwave background. We built them.</p>
+
+<p>Note the specific milestone: <strong>before 1992 we did not know that other planetary systems
+existed.</strong> Wolszczan &amp; Frail (<em>Nature</em>, 1992 — pulsar planets), then Mayor &amp;
+Queloz, "A Jupiter-mass companion to a solar-type star," <em>Nature</em> 378 (1995; Nobel 2019). We
+now have roughly 6,000 confirmed exoplanets, and JWST doing transmission spectroscopy on their
+atmospheres. <strong>The step your analogy says the ant could never take is the step we took thirty
+years ago.</strong></p>
+
+<p>The strongest book-length negation of your whole framing is <strong>David Deutsch,
+<em>The Beginning of Infinity</em></strong> (2011). His thesis: humans are <em>universal
+explainers</em>; there is no class of comprehensible-in-principle truth permanently beyond us; and
+"anything not forbidden by the laws of nature is achievable, given the right knowledge." He attacks
+the clever-apes-with-a-ceiling view head on. Read him against McGinn and let them fight.
+Supporting cast: Henrich, <em>The Secret of Our Success</em> (2016) on cumulative culture; Heyes,
+<em>Cognitive Gadgets</em> (2018).</p>
+
+<div class="note">
+  <p><strong>One more conflation:</strong> the analogy treats <em>seeing</em> and <em>traveling</em>
+  as the same problem. They aren't — photons are cheap, mass is expensive. Two ants in two kitchens
+  could talk instantly if they had radios. That's SETI: a signal-to-noise problem, not an Umwelt
+  problem.</p>
+</div>
+
+<div class="chapter"><span class="num">V</span><h2 id="optimistic">Where it's too optimistic, not too bleak</h2></div>
+
+<p>The assumption that "there <em>will</em> be other humans, there will also be other species" is
+the part of the analogy with the least evidence behind it. This is where you were generous and the
+literature isn't.</p>
+
+<ul class="plain">
+  <li><strong>Hart (1975) and Tipler (1980)</strong> — <em>QJRAS</em> 16:128 and <em>QJRAS</em> 21.
+    If interstellar travel is possible <em>at all</em>, self-replicating probes should have
+    saturated the galaxy within a few million years. They haven't.
+    <a href="https://www.semanticscholar.org/paper/Explanation-for-the-Absence-of-Extraterrestrials-on-Hart/69fbc8c94b1e91814661611c335bfc7574fe0fd1">Hart's
+    conclusion</a>: nobody's home.</li>
+  <li><strong>Sandberg, Drexler &amp; Ord,
+    <a href="https://arxiv.org/abs/1806.02404">"Dissolving the Fermi Paradox"</a></strong> (2018) —
+    redo the Drake equation with honest uncertainty <em>distributions</em> instead of point
+    estimates and you get a substantial probability that we are alone in the observable universe.
+    <strong>There may be no ant in Toronto.</strong></li>
+  <li><strong>Kipping (2020)</strong>, <em>PNAS</em> — Bayesian analysis of life's early start:
+    abiogenesis probably easy, intelligence probably hard.</li>
+  <li><strong>Conway Morris, <em>Life's Solution</em> (2003) vs. Gould, <em>Wonderful Life</em>
+    (1989)</strong> — read as a pair. Convergence makes humanoids near-inevitable, versus: replay
+    the tape and nothing like us appears twice. This <em>is</em> the "there will also be humans"
+    debate.</li>
+  <li><strong>Hanson, "The Great Filter"</strong> (1998); <strong>Ball, "The Zoo Hypothesis,"</strong>
+    <em>Icarus</em> 19 (1973); <strong>Ćirković, <em>The Great Silence</em></strong> (OUP, 2018) —
+    the best scholarly survey of every proposed resolution.</li>
+</ul>
+
+<div class="chapter"><span class="num">VI</span><h2 id="repaired">The repaired analogy</h2></div>
+
+<blockquote>
+  <p>We're ants. But not ants who need to <em>understand</em> Canada — ants who need to be numerous
+  enough, patient enough, and lucky enough that some of us end up in the cargo.</p>
+  <p>And the cargo doesn't need to be a plane; a slow boat works, because the distance is only
+  fatal to individuals, not to lineages. What we actually can't build is the teleporter — and we
+  may not need it.</p>
+  <p>The real question isn't whether we can reach the other kitchen. It's whether there's anything
+  in it.</p>
+  <cite>— the analogy, after the three corrections</cite>
+</blockquote>
+
+<div class="note">
+  <p><strong>Three to start with:</strong> Lem's <em>His Master's Voice</em> (the analogy at its
+  strongest), Deutsch's <em>The Beginning of Infinity</em> (the analogy demolished), Ćirković's
+  <em>The Great Silence</em> (the scoreboard).</p>
+</div>
+
+</article>
+
+<!-- ══════════════════════ PART II ══════════════════════ -->
+
+<div class="hero" style="padding-top:clamp(3rem,10vw,6rem)">
+  <p class="eyebrow">Part II · Curriculum</p>
+  <h1>The reading track</h1>
+  <p class="lede">41 items in seven tiers, ordered over six months — built around the three skills
+    the analogy revealed as gaps, not around topic.</p>
+</div>
+
+<article class="doc">
+
+<h2 id="gaps">What broke, and why it matters</h2>
+
+<p>The three places the analogy failed weren't random. They were three distinct missing skills, and
+that's what this list is organised to fix.</p>
+
+<div class="scroller">
+<table>
+  <thead><tr><th>What broke</th><th>The skill missing</th><th>Tier</th></tr></thead>
+  <tbody>
+    <tr><td>Assumed the ant must <em>know</em> before it can <em>travel</em></td><td>Mechanistic / evolutionary thinking — capability without understanding</td><td><strong>3</strong></td></tr>
+    <tr><td>Called a plane ride "FTL"</td><td><strong>Order-of-magnitude estimation.</strong> 4.24 ly ÷ 0.1<em>c</em> = 42 years. One line of arithmetic kills the whole FTL claim</td><td><strong>0</strong></td></tr>
+    <tr><td>Didn't know exoplanets were found in 1992</td><td>Check the state of the art <em>before</em> theorising</td><td><strong>1</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="verdict">
+  <span class="tag">Highest leverage</span>
+  <p>Tier 0 is the most valuable thing on this page, and it isn't a philosophy book. Your one
+  <em>real</em> error was numerical, not conceptual — a single division would have caught it before
+  you ever wrote the sentence. <strong>Do Tier 0 first.</strong></p>
+</div>
+
+<div class="counter" id="counter">
+  <span><b id="cNum">0</b> / 41 read</span>
+  <span class="track"><span class="fill" id="cFill"></span></span>
+  <button id="cReset" type="button">reset</button>
+</div>
+
+<div class="tier" id="t0">
+  <div class="tier-head"><h3>Tier 0 — Quantitative intuition</h3><span class="pill">Start here</span><span class="pill plain">~1 month</span></div>
+  <p class="why">The single fix that would have caught the one real error. Every claim of the form
+  "X seems light years away" is a numerical claim. Learn to check it in your head.</p>
+  <ol class="books">
+    <li><input type="checkbox" id="b1"><label class="bk-title" for="b1"><span class="n">01</span>Sanjoy Mahajan, <cite>Street-Fighting Mathematics</cite></label><span class="bk-meta"><span class="free">Free</span>MIT Press, 2010. Short. Estimation, dimensional analysis, lumping, easy cases. Legal PDF from MIT Press / OCW.</span></li>
+    <li><input type="checkbox" id="b2"><label class="bk-title" for="b2"><span class="n">02</span>Sanjoy Mahajan, <cite>The Art of Insight in Science and Engineering</cite></label><span class="bk-meta"><span class="free">Free</span>MIT Press, 2014. The longer, better sequel.</span></li>
+    <li><input type="checkbox" id="b3"><label class="bk-title" for="b3"><span class="n">03</span>John Harte, <cite>Consider a Spherical Cow</cite></label><span class="bk-meta">Environmental-problem estimation, worked examples.</span></li>
+    <li><input type="checkbox" id="b4"><label class="bk-title" for="b4"><span class="n">04</span>Randall Munroe, <cite>What If?</cite></label><span class="bk-meta">The same skill, entertaining. Read it as <em>method</em>, not comedy.</span></li>
+  </ol>
+  <div class="note">
+    <p><strong>Practice, not just reading.</strong> One Fermi problem a day for a month, written
+    down, then checked. Start with: how much energy to get 1&nbsp;kg to 0.1<em>c</em>? How many
+    stars within 20&nbsp;ly? How long must a generation ship stay self-sufficient? If your estimate
+    lands within 10×, you've won.</p>
+  </div>
+</div>
+
+<div class="tier" id="t1">
+  <div class="tier-head"><h3>Tier 1 — Epistemology</h3><span class="pill plain">How you fool yourself</span></div>
+  <ol class="books">
+    <li><input type="checkbox" id="b5"><label class="bk-title" for="b5"><span class="n">05</span>David Deutsch, <cite>The Beginning of Infinity</cite></label><span class="bk-meta">2011. <strong>The most important book on this page after Tier 0.</strong> Read it specifically as the enemy of your own analogy.</span></li>
+    <li><input type="checkbox" id="b6"><label class="bk-title" for="b6"><span class="n">06</span>Richard Feynman, <cite>Cargo Cult Science</cite></label><span class="bk-meta"><span class="free">Free</span>Caltech commencement, 1974. Twenty minutes. "The first principle is that you must not fool yourself."</span></li>
+    <li><input type="checkbox" id="b7"><label class="bk-title" for="b7"><span class="n">07</span>Karl Popper, <cite>Conjectures and Refutations</cite></label><span class="bk-meta">1963. Essays 1 and 10 are enough to start.</span></li>
+    <li><input type="checkbox" id="b8"><label class="bk-title" for="b8"><span class="n">08</span>Thomas Kuhn, <cite>The Structure of Scientific Revolutions</cite></label><span class="bk-meta">1962. Read it <em>after</em> Popper, so you can watch them disagree.</span></li>
+    <li><input type="checkbox" id="b9"><label class="bk-title" for="b9"><span class="n">09</span>Philip Tetlock, <cite>Superforecasting</cite></label><span class="bk-meta">2015. Calibration — how to hold a belief at 70% rather than 100%. Directly relevant to "there <em>will</em> be other humans."</span></li>
+    <li><input type="checkbox" id="b10"><label class="bk-title" for="b10"><span class="n">10</span>Douglas Hubbard, <cite>How to Measure Anything</cite></label><span class="bk-meta">2014. The practical companion to Tetlock.</span></li>
+    <li><input type="checkbox" id="b11"><label class="bk-title" for="b11"><span class="n">11</span>E. T. Jaynes, <cite>Probability Theory: The Logic of Science</cite></label><span class="bk-meta">2003. Later, hard, worth it.</span></li>
+  </ol>
+</div>
+
+<div class="tier" id="t2">
+  <div class="tier-head"><h3>Tier 2 — Minds and their limits</h3><span class="pill plain">Your analogy's home turf</span></div>
+  <ol class="books">
+    <li><input type="checkbox" id="b12"><label class="bk-title" for="b12"><span class="n">12</span>Thomas Nagel, <cite>What Is It Like to Be a Bat?</cite></label><span class="bk-meta"><span class="free">Free</span><em>Philosophical Review</em> 83 (1974). Fifteen pages.</span></li>
+    <li><input type="checkbox" id="b13"><label class="bk-title" for="b13"><span class="n">13</span>Colin McGinn, <cite>Can We Solve the Mind–Body Problem?</cite></label><span class="bk-meta"><span class="free">Free</span><em>Mind</em> 98 (1989). The rigorous version of your claim.</span></li>
+    <li><input type="checkbox" id="b14"><label class="bk-title" for="b14"><span class="n">14</span>Ed Yong, <cite>An Immense World</cite></label><span class="bk-meta">2022. Umwelt done empirically and beautifully. Read this <em>before</em> von Uexküll.</span></li>
+    <li><input type="checkbox" id="b15"><label class="bk-title" for="b15"><span class="n">15</span>Jakob von Uexküll, <cite>A Foray into the Worlds of Animals and Humans</cite></label><span class="bk-meta">1934. The original.</span></li>
+    <li><input type="checkbox" id="b16"><label class="bk-title" for="b16"><span class="n">16</span>Peter Godfrey-Smith, <cite>Other Minds</cite></label><span class="bk-meta">2016. The octopus — a genuine alien on Earth.</span></li>
+    <li><input type="checkbox" id="b17"><label class="bk-title" for="b17"><span class="n">17</span>Daniel Dennett, <cite>From Bacteria to Bach and Back</cite></label><span class="bk-meta">2017. "Competence without comprehension" — the direct correction to Correction 1.</span></li>
+    <li><input type="checkbox" id="b18"><label class="bk-title" for="b18"><span class="n">18</span>Douglas Hofstadter, <cite>Gödel, Escher, Bach</cite></label><span class="bk-meta">1979. A year-long project, not a weekend.</span></li>
+  </ol>
+</div>
+
+<div class="tier" id="t3">
+  <div class="tier-head"><h3>Tier 3 — Why ants work</h3><span class="pill plain">Evolution &amp; emergence</span></div>
+  <ol class="books">
+    <li><input type="checkbox" id="b19"><label class="bk-title" for="b19"><span class="n">19</span>Hölldobler &amp; Wilson, <cite>Journey to the Ants</cite></label><span class="bk-meta">1994. The accessible one. <em>The Ants</em> (1990, Pulitzer) is the 700-page reference if you get hooked.</span></li>
+    <li><input type="checkbox" id="b20"><label class="bk-title" for="b20"><span class="n">20</span>Deborah Gordon, <cite>Ant Encounters</cite></label><span class="bk-meta">2010. Colony behaviour with no central plan — the individual ant really does know almost nothing.</span></li>
+    <li><input type="checkbox" id="b21"><label class="bk-title" for="b21"><span class="n">21</span>Joseph Henrich, <cite>The Secret of Our Success</cite></label><span class="bk-meta">2016. Cumulative culture — the thing ants lack and we have.</span></li>
+    <li><input type="checkbox" id="b22"><label class="bk-title" for="b22"><span class="n">22</span>Richard Dawkins, <cite>Climbing Mount Improbable</cite></label><span class="bk-meta">1996. Design without a designer.</span></li>
+    <li><input type="checkbox" id="b23"><label class="bk-title" for="b23"><span class="n">23</span>Gould, <cite>Wonderful Life</cite> vs. Conway Morris, <cite>Life's Solution</cite></label><span class="bk-meta">1989 and 2003. Read as a pair. This <em>is</em> the "will there be other humans?" debate.</span></li>
+    <li><input type="checkbox" id="b24"><label class="bk-title" for="b24"><span class="n">24</span>Cecilia Heyes, <cite>Cognitive Gadgets</cite></label><span class="bk-meta">2018. Minds as culturally assembled, not genetically fixed.</span></li>
+  </ol>
+</div>
+
+<div class="tier" id="t4">
+  <div class="tier-head"><h3>Tier 4 — The cosmic question, done rigorously</h3><span class="pill plain">Papers</span></div>
+  <ol class="books">
+    <li><input type="checkbox" id="b25"><label class="bk-title" for="b25"><span class="n">25</span>Milan Ćirković, <cite>The Great Silence</cite></label><span class="bk-meta">OUP, 2018. The scoreboard of every Fermi-paradox resolution. Read this <em>before</em> forming opinions.</span></li>
+    <li><input type="checkbox" id="b26"><label class="bk-title" for="b26"><span class="n">26</span>Lingam &amp; Loeb, <cite>Life in the Cosmos</cite></label><span class="bk-meta">Harvard UP, 2021. The current rigorous textbook. Heavy — use as reference.</span></li>
+    <li><input type="checkbox" id="b27"><label class="bk-title" for="b27"><span class="n">27</span>The Fermi paper stack, in this order</label><span class="bk-meta"><span class="free">Free</span>Hart, <em>QJRAS</em> 16 (1975) → Ball, "The Zoo Hypothesis," <em>Icarus</em> 19 (1973) → Tipler, <em>QJRAS</em> 21 (1980) → Hanson, "The Great Filter" (1998) → <a href="https://arxiv.org/abs/1806.02404">Sandberg, Drexler &amp; Ord (2018)</a> → Kipping, <em>PNAS</em> (2020). All short.</span></li>
+    <li><input type="checkbox" id="b28"><label class="bk-title" for="b28"><span class="n">28</span>The propulsion stack, in this order</label><span class="bk-meta"><span class="free">Free</span>Dyson, <em>Physics Today</em> (1968) → Forward, <em>J. Spacecraft</em> 21(2) (1984) → <a href="https://arxiv.org/abs/1604.01356">Lubin (2016)</a> → Alcubierre (1994), then Pfenning &amp; Ford (1997) for why not.</span></li>
+    <li><input type="checkbox" id="b29"><label class="bk-title" for="b29"><span class="n">29</span>Mayor &amp; Queloz, <cite>A Jupiter-mass companion to a solar-type star</cite></label><span class="bk-meta"><em>Nature</em> 378 (1995). Read the actual paper — four pages. This is the moment we learned there was a Canada, and it's worth seeing how modest it looks.</span></li>
+  </ol>
+</div>
+
+<div class="tier" id="t5">
+  <div class="tier-head"><h3>Tier 5 — Fiction that does the philosophy properly</h3><span class="pill plain">Not a break</span></div>
+  <p class="why">These are arguments in narrative form, not a rest from the list.</p>
+  <ol class="books">
+    <li><input type="checkbox" id="b30"><label class="bk-title" for="b30"><span class="n">30</span>Stanisław Lem — <cite>His Master's Voice</cite>, then <cite>Solaris</cite>, then <cite>Fiasco</cite></label><span class="bk-meta">1968 / 1961 / 1986. Lem is the writer closest to your instinct. Start with <em>His Master's Voice</em>: humanity receives a genuine message and simply cannot decode it.</span></li>
+    <li><input type="checkbox" id="b31"><label class="bk-title" for="b31"><span class="n">31</span>Liu Cixin, <cite>The Three-Body Problem</cite> trilogy</label><span class="bk-meta">The ant on the gravestone, the dark forest, dimensional collapse.</span></li>
+    <li><input type="checkbox" id="b32"><label class="bk-title" for="b32"><span class="n">32</span>Peter Watts, <cite>Blindsight</cite></label><span class="bk-meta"><span class="free">Free</span>2006. Intelligence without consciousness. Legally free online.</span></li>
+    <li><input type="checkbox" id="b33"><label class="bk-title" for="b33"><span class="n">33</span>Olaf Stapledon, <cite>Star Maker</cite></label><span class="bk-meta">1937. Still the most ambitious scale ever attempted.</span></li>
+    <li><input type="checkbox" id="b34"><label class="bk-title" for="b34"><span class="n">34</span>Ted Chiang, <cite>Stories of Your Life and Others</cite></label><span class="bk-meta">"Story of Your Life," "Tower of Babylon."</span></li>
+    <li><input type="checkbox" id="b35"><label class="bk-title" for="b35"><span class="n">35</span>Vernor Vinge, <cite>A Fire Upon the Deep</cite></label><span class="bk-meta">1992. A physics that limits <em>where</em> thought is possible.</span></li>
+    <li><input type="checkbox" id="b36"><label class="bk-title" for="b36"><span class="n">36</span>Borges — <cite>The Library of Babel</cite>, <cite>Funes the Memorious</cite>, <cite>On Exactitude in Science</cite></label><span class="bk-meta"><span class="free">Free</span>A few pages each. All three are about the limits of representation.</span></li>
+    <li><input type="checkbox" id="b37"><label class="bk-title" for="b37"><span class="n">37</span>Edwin Abbott Abbott, <cite>Flatland</cite></label><span class="bk-meta"><span class="free">Free</span>1884. The dimensional version of your analogy. A hundred pages, public domain.</span></li>
+  </ol>
+</div>
+
+<div class="tier" id="t6">
+  <div class="tier-head"><h3>Tier 6 — If the research ambition is serious</h3><span class="pill">Do 38 &amp; 39 first</span></div>
+  <ol class="books">
+    <li><input type="checkbox" id="b38"><label class="bk-title" for="b38"><span class="n">38</span>Richard Hamming, <cite>You and Your Research</cite></label><span class="bk-meta"><span class="free">Free</span>Bell Labs, 1986. Transcript online. Read it once a year. Non-negotiable.</span></li>
+    <li><input type="checkbox" id="b39"><label class="bk-title" for="b39"><span class="n">39</span>Larry McEnerney, <cite>The Craft of Writing Effectively</cite></label><span class="bk-meta"><span class="free">Free</span>UChicago lecture, 80 minutes, on YouTube. The best single thing on writing that actually gets <em>read</em>. Highest return-per-minute item on this page.</span></li>
+    <li><input type="checkbox" id="b40"><label class="bk-title" for="b40"><span class="n">40</span>Simon Peyton Jones, <cite>How to Write a Great Research Paper</cite></label><span class="bk-meta"><span class="free">Free</span>Talk and slides.</span></li>
+    <li><input type="checkbox" id="b41"><label class="bk-title" for="b41"><span class="n">41</span>Steven Pinker, <cite>The Sense of Style</cite></label><span class="bk-meta">2014.</span></li>
+  </ol>
+</div>
+
+<hr class="divider">
+
+<h2 id="order">Suggested order</h2>
+
+<div class="scroller">
+<table>
+  <thead><tr><th>Months</th><th>Do this</th></tr></thead>
+  <tbody>
+    <tr><td><strong>1</strong></td><td>Tier 0 (Mahajan, #01) + one Fermi problem daily. Hamming (#38) and McEnerney (#39) in week one — both are one sitting.</td></tr>
+    <tr><td><strong>2–3</strong></td><td>Deutsch (#05) + Feynman (#06) + Ćirković (#25). Lem's <em>His Master's Voice</em> alongside.</td></tr>
+    <tr><td><strong>4</strong></td><td>Nagel (#12), McGinn (#13), Dennett (#17), Ed Yong (#14).</td></tr>
+    <tr><td><strong>5</strong></td><td>The Tier 4 paper stacks (#27, #28) — by now you can check their arithmetic yourself.</td></tr>
+    <tr><td><strong>6</strong></td><td>Gould vs. Conway Morris (#23). Then rewrite the ant analogy and see what survives.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="verdict">
+  <span class="tag">The point of month six</span>
+  <p>The analogy was worth having. Rewriting it after this list — and watching which parts you no
+  longer believe — is the actual exercise. The original is preserved verbatim at the top of this
+  page. That's why it's saved.</p>
+</div>
+
+<footer>
+  <p>Written up from a conversation on 24 July 2026. Analogy and argument by Vaibhav Kumar;
+  citations verified against primary sources. Progress ticks are stored in your own browser only —
+  nothing is uploaded.</p>
+  <p class="sources"><strong>Key sources:</strong>
+    <a href="https://www.pnas.org/doi/10.1073/pnas.092694199">Giraud et al., PNAS 2002</a> ·
+    <a href="https://www.nature.com/articles/s41559-017-0184">Bertelsmeier et al., Nat Ecol Evol 2017</a> ·
+    <a href="https://www.newdualism.org/papers/C.McGinn/McGinn_1989_Mind-body-problem_M.pdf">McGinn 1989</a> ·
+    <a href="https://en.wikipedia.org/wiki/From_Bacteria_to_Bach_and_Back">Dennett 2017</a> ·
+    <a href="https://arxiv.org/abs/1604.01356">Lubin 2016</a> ·
+    <a href="https://arxiv.org/abs/1806.02404">Sandberg, Drexler &amp; Ord 2018</a> ·
+    <a href="https://www.semanticscholar.org/paper/Explanation-for-the-Absence-of-Extraterrestrials-on-Hart/69fbc8c94b1e91814661611c335bfc7574fe0fd1">Hart 1975</a>
+  </p>
+</footer>
+
+</article>
+</main>
+</div>
+
+<button class="btn" id="up" aria-label="Back to top">
+  <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<script>
+(function(){
+  "use strict";
+  var root = document.documentElement, LS = {};
+  try { LS = window.localStorage; } catch(e){ LS = {getItem:function(){return null;},setItem:function(){},removeItem:function(){}}; }
+
+  /* ── theme: stored choice, else system, default dark ── */
+  var stored = null;
+  try { stored = LS.getItem("readings-theme"); } catch(e){}
+  if (stored) root.setAttribute("data-theme", stored);
+  else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) root.setAttribute("data-theme","light");
+  document.getElementById("themeBtn").addEventListener("click", function(){
+    var next = root.getAttribute("data-theme") === "light" ? "dark" : "light";
+    root.setAttribute("data-theme", next);
+    try { LS.setItem("readings-theme", next); } catch(e){}
+  });
+
+  /* ── toc drawer (mobile) ── */
+  var toc = document.getElementById("toc"), scrim = document.getElementById("scrim"),
+      tocBtn = document.getElementById("tocBtn");
+  function setToc(open){
+    toc.classList.toggle("open", open);
+    scrim.classList.toggle("on", open);
+    tocBtn.setAttribute("aria-expanded", open ? "true" : "false");
+  }
+  tocBtn.addEventListener("click", function(){ setToc(!toc.classList.contains("open")); });
+  document.getElementById("tocClose").addEventListener("click", function(){ setToc(false); });
+  scrim.addEventListener("click", function(){ setToc(false); });
+  toc.addEventListener("click", function(e){ if (e.target.tagName === "A") setToc(false); });
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape") setToc(false); });
+
+  /* ── scroll progress + back-to-top ── */
+  var bar = document.getElementById("bar"), up = document.getElementById("up"), raf = false;
+  function onScroll(){
+    if (raf) return; raf = true;
+    requestAnimationFrame(function(){
+      raf = false;
+      var h = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + "%";
+      up.classList.toggle("show", window.scrollY > 900);
+    });
+  }
+  window.addEventListener("scroll", onScroll, {passive:true});
+  window.addEventListener("resize", onScroll, {passive:true});
+  onScroll();
+  up.addEventListener("click", function(){
+    window.scrollTo({top:0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"});
+  });
+
+  /* ── active toc link ── */
+  var links = [].slice.call(toc.querySelectorAll("a")),
+      targets = links.map(function(a){ return document.getElementById(a.getAttribute("href").slice(1)); });
+  if (window.IntersectionObserver){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (!en.isIntersecting) return;
+        var i = targets.indexOf(en.target);
+        if (i < 0) return;
+        links.forEach(function(a){ a.classList.remove("active"); });
+        links[i].classList.add("active");
+      });
+    }, {rootMargin:"-15% 0px -70% 0px"});
+    targets.forEach(function(t){ if (t) io.observe(t); });
+  }
+
+  /* ── reading progress ticks ── */
+  var boxes = [].slice.call(document.querySelectorAll("ol.books input[type=checkbox]")),
+      cNum = document.getElementById("cNum"), cFill = document.getElementById("cFill"),
+      KEY = "readings-done";
+  var done = {};
+  try { done = JSON.parse(LS.getItem(KEY) || "{}") || {}; } catch(e){ done = {}; }
+
+  function paint(){
+    var n = 0;
+    boxes.forEach(function(b){
+      b.parentNode.classList.toggle("done", b.checked);
+      if (b.checked) n++;
+    });
+    cNum.textContent = n;
+    cFill.style.width = (boxes.length ? (n / boxes.length) * 100 : 0) + "%";
+  }
+  boxes.forEach(function(b){
+    if (done[b.id]) b.checked = true;
+    b.addEventListener("change", function(){
+      if (b.checked) done[b.id] = 1; else delete done[b.id];
+      try { LS.setItem(KEY, JSON.stringify(done)); } catch(e){}
+      paint();
+    });
+  });
+  paint();
+
+  document.getElementById("cReset").addEventListener("click", function(){
+    if (!confirm("Clear all reading ticks?")) return;
+    done = {};
+    try { LS.removeItem(KEY); } catch(e){}
+    boxes.forEach(function(b){ b.checked = false; });
+    paint();
+  });
+})();
+</script>
+
+<script>
+/* anonymous visit beacon — counts loads + presence heartbeats, no cookies */
+(function(){
+  if (location.protocol === "file:" || location.hostname === "localhost") return;
+  var EP = "https://site-analytics.vaibhavpro9210.workers.dev/ping";
+  var sid = sessionStorage.getItem("va_sid");
+  if (!sid) { sid = Math.random().toString(36).slice(2) + Date.now().toString(36); sessionStorage.setItem("va_sid", sid); }
+  function send(kind){
+    try { navigator.sendBeacon(EP, new Blob([JSON.stringify({sid:sid, page:location.pathname, kind:kind})], {type:"text/plain"})); } catch(e){}
+  }
+  send("load");
+  setInterval(function(){ if (document.visibilityState === "visible") send("beat"); }, 60000);
+})();
+</script>
+</body>
+</html>
