@@ -2,7 +2,10 @@
 
 Long-form thinking notes, published as a single-file site.
 
-**Live:** https://vaibhavgit9210.github.io/readme/
+**Live:** https://vaibhavkumar.is-a.dev/readme/
+
+(`vaibhavgit9210.github.io/readme/` 301-redirects here — the account's Pages custom domain
+applies to every project site.)
 
 | File | What it is |
 |---|---|
