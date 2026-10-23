@@ -16,7 +16,8 @@
   --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Helvetica Neue", Arial, sans-serif;
   --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
   --measure: 40rem;
-  --r: 12px;
+  --r: 16px;
+  --blur: blur(24px) saturate(170%);
 }
 :root, :root[data-theme="dark"]{
   --bg:#131417; --bg-grad:#181a1f;
@@ -26,6 +27,12 @@
   --accent:#e9a33c; --accent-dim:#b8792a; --accent-bg:rgba(233,163,60,.10); --accent-line:rgba(233,163,60,.32);
   --good:#54b98a; --bad:#e0655f;
   --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+  /* glass, the macOS 26+ material: a translucent fill that blurs what is behind it, a bright top rim, a soft drop */
+  --glass:rgba(27,29,34,.58); --glass-solid:rgba(27,29,34,.86);
+  --rim:inset 0 .5px 0 rgba(255,255,255,.2), inset 0 0 0 .5px rgba(255,255,255,.07);
+  --drop:0 10px 30px rgba(0,0,0,.32), 0 1px 3px rgba(0,0,0,.22);
+  --sheet-drop:0 20px 60px rgba(0,0,0,.6);
+  color-scheme:dark;
 }
 :root[data-theme="light"]{
   --bg:#faf8f4; --bg-grad:#f4f1ea;
@@ -35,6 +42,12 @@
   --accent:#a2620c; --accent-dim:#c07f1e; --accent-bg:rgba(162,98,12,.07); --accent-line:rgba(162,98,12,.28);
   --good:#2f7d5b; --bad:#b2413b;
   --shadow:0 1px 2px rgba(60,50,35,.06), 0 10px 28px -14px rgba(60,50,35,.18);
+  --glass:rgba(255,254,251,.62); --glass-solid:rgba(253,251,247,.9);
+  --blur: blur(24px) saturate(180%);
+  --rim:inset 0 .5px 0 rgba(255,255,255,.95), inset 0 0 0 .5px rgba(60,50,35,.1);
+  --drop:0 10px 30px rgba(60,50,35,.1), 0 1px 3px rgba(60,50,35,.08);
+  --sheet-drop:0 20px 60px rgba(60,50,35,.22);
+  color-scheme:light;
 }
 @media (prefers-color-scheme: light){
   :root:not([data-theme]){ color-scheme: light; }
@@ -47,6 +60,7 @@ body{
   margin:0; background:var(--bg); color:var(--text);
   font-family:var(--serif); font-size:1.0625rem; line-height:1.75;
   -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  -webkit-tap-highlight-color:transparent;
   overflow-x:hidden;
 }
 body::before{
@@ -60,29 +74,45 @@ a:hover{ border-bottom-color:var(--accent); }
 
 /* ═══════════════ progress + chrome ═══════════════ */
 #bar{ position:fixed; top:0; left:0; height:2px; width:0; background:var(--accent); z-index:60; }
+/* the bar is a soft scroll edge (the page blurs and fades out under it); the controls float on glass capsules */
 header.top{
   position:sticky; top:0; z-index:50;
-  display:flex; align-items:center; gap:.75rem;
-  padding:.6rem clamp(1rem,4vw,2rem); padding-top:max(.6rem, env(safe-area-inset-top));
-  background:color-mix(in srgb, var(--bg) 86%, transparent);
-  backdrop-filter:saturate(160%) blur(14px); -webkit-backdrop-filter:saturate(160%) blur(14px);
-  border-bottom:1px solid var(--border-soft);
+  display:flex; align-items:center; gap:.5rem;
+  padding:max(.6rem, env(safe-area-inset-top)) max(clamp(1rem,4vw,2rem), env(safe-area-inset-right)) .6rem max(clamp(1rem,4vw,2rem), env(safe-area-inset-left));
+  pointer-events:none;
 }
-@supports not (backdrop-filter: blur(1px)){ header.top{ background:var(--bg); } }
+header.top::before{
+  content:""; position:absolute; inset:0 0 -1rem; z-index:-1; pointer-events:none;
+  background:color-mix(in srgb, var(--bg) 72%, transparent);
+  -webkit-backdrop-filter:blur(14px) saturate(160%); backdrop-filter:blur(14px) saturate(160%);
+  -webkit-mask-image:linear-gradient(#000 calc(100% - 1.6rem), transparent);
+  mask-image:linear-gradient(#000 calc(100% - 1.6rem), transparent);
+}
+header.top > *{ pointer-events:auto; }
 .brand{
   font-family:var(--sans); font-size:.8125rem; font-weight:600; letter-spacing:.14em;
   text-transform:uppercase; color:var(--muted); border:0; margin-right:auto;
   display:flex; align-items:center; gap:.5rem;
+  height:2.25rem; padding:0 1rem; border-radius:999px;
+  background:var(--glass); -webkit-backdrop-filter:var(--blur); backdrop-filter:var(--blur);
+  box-shadow:var(--rim), var(--drop); transition:color .15s;
 }
 .brand:hover{ color:var(--text); }
 .brand .dot{ width:6px; height:6px; border-radius:50%; background:var(--accent); flex:none; }
 .btn{
   font-family:var(--sans); font-size:.75rem; font-weight:600; letter-spacing:.04em;
-  color:var(--muted); background:var(--surface); border:1px solid var(--border);
-  border-radius:999px; padding:.45rem .8rem; cursor:pointer; line-height:1;
-  display:inline-flex; align-items:center; gap:.4rem; transition:color .15s, border-color .15s, background .15s;
+  color:var(--muted); border:0; height:2.25rem;
+  background:var(--glass); -webkit-backdrop-filter:var(--blur); backdrop-filter:var(--blur);
+  box-shadow:var(--rim), var(--drop);
+  border-radius:999px; padding:0 .95rem; cursor:pointer; line-height:1;
+  display:inline-flex; align-items:center; gap:.4rem; transition:color .15s, box-shadow .15s, transform .1s;
 }
-.btn:hover{ color:var(--text-strong); border-color:var(--accent-line); }
+.btn:hover{ color:var(--text-strong); box-shadow:var(--rim), inset 0 0 0 1px var(--accent-line), var(--drop); }
+.btn:active{ transform:scale(.96); }
+#themeBtn, #tocClose{ width:2.25rem; padding:0; justify-content:center; }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))){
+  .brand, .btn, .counter, nav.toc{ background:var(--surface) !important; }
+}
 .btn svg{ width:14px; height:14px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
 [data-theme="dark"] .sun{ display:none } [data-theme="light"] .moon{ display:none }
 
@@ -100,16 +130,17 @@ nav.toc{
 }
 @media (min-width:1100px){
   nav.toc{ position:sticky; top:4rem; align-self:start; max-height:calc(100vh - 5.5rem); overflow-y:auto;
-    padding:2.5rem 1rem 3rem 1.25rem; border-right:1px solid var(--border-soft); }
+    padding:2.5rem 1rem 3rem 1.25rem; border-right:.5px solid var(--border); }
   #tocClose, #tocBtn{ display:none; }
 }
 @media (max-width:1099px){
   nav.toc{
-    position:fixed; inset:0 auto 0 0; z-index:70; width:min(20rem,86vw);
-    background:var(--surface); border-right:1px solid var(--border);
+    position:fixed; z-index:70; width:min(20rem,86vw); right:auto;
+    top:max(.5rem, env(safe-area-inset-top)); bottom:max(.5rem, env(safe-area-inset-bottom)); left:max(.5rem, env(safe-area-inset-left));
+    background:var(--glass-solid); -webkit-backdrop-filter:var(--blur); backdrop-filter:var(--blur);
+    border-radius:24px; box-shadow:var(--rim), var(--sheet-drop);
     padding:1.25rem 1.25rem 3rem; overflow-y:auto;
-    transform:translateX(-101%); transition:transform .26s cubic-bezier(.4,0,.2,1);
-    box-shadow:var(--shadow);
+    transform:translateX(calc(-100% - 6rem)); transition:transform .28s cubic-bezier(.2,.8,.2,1);
   }
   nav.toc.open{ transform:none; }
   #scrim{ position:fixed; inset:0; z-index:65; background:rgba(0,0,0,.5); opacity:0; pointer-events:none; transition:opacity .26s; }
@@ -123,7 +154,7 @@ nav.toc{
 .toc ol{ list-style:none; margin:0; padding:0; }
 .toc li{ margin:0; }
 .toc a{
-  display:block; padding:.32rem .6rem; margin-left:-.6rem; border:0; border-radius:7px;
+  display:block; padding:.32rem .6rem; margin-left:-.6rem; border:0; border-radius:10px;
   color:var(--muted); transition:color .13s, background .13s;
 }
 .toc a:hover{ color:var(--text-strong); background:var(--surface-2); }
@@ -275,21 +306,24 @@ li.done .bk-title, li.done .bk-meta{ opacity:.45; }
 li.done .bk-title{ text-decoration:line-through; text-decoration-color:var(--faint); }
 
 .counter{
-  position:sticky; top:3.5rem; z-index:20; margin:1.5rem 0 0;
+  position:sticky; top:calc(max(.6rem, env(safe-area-inset-top)) + 3.3rem); z-index:55; margin:1.5rem 0 0;
   display:flex; align-items:center; gap:.75rem;
   font-family:var(--sans); font-size:.8125rem; color:var(--muted);
-  padding:.6rem .9rem; border:1px solid var(--border); border-radius:var(--r);
-  background:color-mix(in srgb, var(--surface) 92%, transparent);
-  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  padding:.5rem .5rem .5rem 1.1rem; border-radius:999px;
+  background:var(--glass-solid); -webkit-backdrop-filter:var(--blur); backdrop-filter:var(--blur);
+  box-shadow:var(--rim), var(--drop);
 }
+/* jumps to a tier land below the pinned counter, not under it (this adds to the page's 5rem scroll-padding) */
+.tier, #order{ scroll-margin-top:calc(max(.6rem, env(safe-area-inset-top)) + 1.6rem); }
 .counter .track{ flex:1; height:5px; background:var(--surface-2); border-radius:999px; overflow:hidden; border:1px solid var(--border-soft); }
 .counter .fill{ height:100%; width:0; background:var(--accent); border-radius:999px; transition:width .3s; }
 .counter b{ color:var(--text-strong); font-variant-numeric:tabular-nums; }
 .counter button{
   font-family:var(--sans); font-size:.6875rem; color:var(--faint); background:none;
-  border:0; cursor:pointer; padding:.2rem .3rem; text-decoration:underline; text-underline-offset:2px;
+  border:0; cursor:pointer; padding:.35rem .7rem; border-radius:999px; text-decoration:underline; text-underline-offset:2px;
+  transition:color .15s, background-color .15s;
 }
-.counter button:hover{ color:var(--bad); }
+.counter button:hover{ color:var(--bad); background:color-mix(in srgb, var(--bad) 12%, transparent); }
 
 /* footer */
 footer{
@@ -303,12 +337,21 @@ footer a:hover{ color:var(--accent); }
 
 /* back to top */
 #up{
-  position:fixed; right:1rem; bottom:max(1rem, env(safe-area-inset-bottom)); z-index:40;
-  width:2.6rem; height:2.6rem; border-radius:50%; padding:0; justify-content:center;
-  opacity:0; pointer-events:none; transition:opacity .2s; box-shadow:var(--shadow);
+  position:fixed; right:max(1rem, env(safe-area-inset-right)); bottom:max(1rem, env(safe-area-inset-bottom)); z-index:40;
+  width:2.75rem; height:2.75rem; border-radius:50%; padding:0; justify-content:center;
+  background:var(--glass-solid);
+  opacity:0; pointer-events:none; transition:opacity .2s, color .15s, box-shadow .15s, transform .1s;
 }
 #up.show{ opacity:1; pointer-events:auto; }
 @media (min-width:1100px){ #up{ right:2rem; bottom:2rem; } }
+
+/* Reduce Transparency (System Settings > Accessibility > Display): solid surfaces, no blur */
+@media (prefers-reduced-transparency: reduce){
+  :root, :root[data-theme="dark"]{ --glass:#1b1d22; --glass-solid:#1b1d22; }
+  :root[data-theme="light"]{ --glass:#ffffff; --glass-solid:#ffffff; }
+  .brand, .btn, .counter, nav.toc{ -webkit-backdrop-filter:none; backdrop-filter:none; }
+  header.top::before{ background:var(--bg); -webkit-backdrop-filter:none; backdrop-filter:none; }
+}
 
 @media print{
   header.top, nav.toc, #up, #bar, #scrim, .counter{ display:none !important; }
